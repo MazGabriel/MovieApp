@@ -33,7 +33,8 @@ Basic skeleton
 ```
 
 ## External libraries
--
+- Retrofit
+- Okhttp3
 
 ## Features
 - 
