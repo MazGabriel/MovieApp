@@ -69,8 +69,13 @@ dependencies {
     implementation(libs.converter.gson)
 
     // Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    // ViewModel with Hilt
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    kapt(libs.androidx.hilt.compiler)
 }
 
 kapt {

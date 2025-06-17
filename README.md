@@ -1,5 +1,9 @@
 # MovieApp
 
+## Features
+- Display popular movies titles
+
+
 ## Architecture
 
 ### Modules
@@ -35,6 +39,4 @@ Basic skeleton
 ## External libraries
 - Retrofit
 - Okhttp3
-
-## Features
-- 
+- Hilt
