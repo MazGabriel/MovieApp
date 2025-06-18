@@ -76,6 +76,10 @@ dependencies {
     // ViewModel with Hilt
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     kapt(libs.androidx.hilt.compiler)
+
+    // Images
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 }
 
 kapt {

@@ -1,7 +1,8 @@
 # MovieApp
 
 ## Features
-- Display popular movies titles
+
+- Display popular movies titles and images in a grid
 
 
 ## Architecture
@@ -40,3 +41,4 @@ Basic skeleton
 - Retrofit
 - Okhttp3
 - Hilt
+- Coil
