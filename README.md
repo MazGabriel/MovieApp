@@ -3,6 +3,7 @@
 ## Features
 
 - Display popular movies titles and images in a grid
+- App bar to navigate back when is possible
 
 
 ## Architecture
