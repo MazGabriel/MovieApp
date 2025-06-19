@@ -4,6 +4,7 @@
 
 - Display popular movies titles and images in a grid
 - App bar to navigate back when is possible
+- Bottom navigation bar to navigate between main screens
 
 
 ## Architecture
@@ -24,6 +25,10 @@ Basic skeleton
   - di/
   - navigation/
   - ui/
+    - components/
+    - navigation/
+    - screens/
+  - viewmodel
 - domain/
   - model/
   - repository/
@@ -43,3 +48,4 @@ Basic skeleton
 - Okhttp3
 - Hilt
 - Coil
+- Navigation Compose
