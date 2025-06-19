@@ -1,12 +1,15 @@
 package com.example.data.remote.api
 
-import com.example.core.utils.Constants
+import com.example.data.remote.dto.MovieDto
 import com.example.data.remote.dto.MoviesDto
 import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.Path
 
 interface MovieApi {
 
     @GET("movie/popular")
-    suspend fun getPopularMovies(@Query("api_key") apiKey: String = Constants.API_KEY): MoviesDto
+    suspend fun getPopularMovies(): MoviesDto
+
+    @GET("movie/{movie_id}")
+    suspend fun getMoviesById(@Path("movie_id") movieId: Int): MovieDto
 }

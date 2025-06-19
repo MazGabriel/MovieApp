@@ -11,12 +11,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import com.example.movieapp.ui.navigation.Screen
 
 @Composable
 fun MovieTopBar(
     title: String,
-    onNavigationClick: (() -> Unit)? = null
+    currentRoute: String?,
+    onBackClick: () -> Unit,
 ) {
+    val showBackButton = Screen.bottomNavRoutes.none { routePattern ->
+        currentRoute?.startsWith(routePattern) == true
+    }
+
     TopAppBar(
         title = {
             Text(
@@ -25,8 +31,8 @@ fun MovieTopBar(
             )
         },
         navigationIcon = {
-            onNavigationClick?.let {
-                IconButton(it) {
+            if (showBackButton) {
+                IconButton(onClick = { onBackClick() }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "Back"

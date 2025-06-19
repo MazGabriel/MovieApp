@@ -1,4 +1,4 @@
-package com.example.movieapp.ui.screens
+package com.example.movieapp.ui.screens.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,11 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.movieapp.ui.components.MoviesList
-import com.example.movieapp.viewmodel.MovieViewModel
+import com.example.movieapp.ui.navigation.Screen
 
 @Composable
-fun PopularMoviesScreen(viewModel: MovieViewModel = hiltViewModel()) {
+fun HomeScreen(navController: NavController, viewModel: MovieViewModel = hiltViewModel()) {
     val state = viewModel.state
 
     when {
@@ -29,7 +30,9 @@ fun PopularMoviesScreen(viewModel: MovieViewModel = hiltViewModel()) {
         }
 
         else -> {
-            MoviesList(movies = state.movies) { }
+            MoviesList(movies = state.movies) { movieId ->
+                navController.navigate(Screen.MovieDetail.createRoute(movieId))
+            }
         }
     }
 }

@@ -10,7 +10,8 @@ data class MovieDto(
     @SerializedName("backdrop_path")
     val backdropPath: String,
     @SerializedName("genre_ids")
-    val genreIds: List<Int>,
+    val genreIds: List<Int>?,
+    val genres: List<GenreDto>?,
     val id: Int,
     @SerializedName("original_language")
     val originalLanguage: String,
@@ -32,7 +33,8 @@ data class MovieDto(
     fun toDomain() = Movie(
         adult = adult,
         backdropPath = backdropPath.value(),
-        genreIds = genreIds,
+        genreIds = genreIds.orEmpty(),
+        genres = genres?.map { it.toDomain() }.orEmpty(),
         id = id,
         originalLanguage = originalLanguage,
         originalTitle = originalTitle,

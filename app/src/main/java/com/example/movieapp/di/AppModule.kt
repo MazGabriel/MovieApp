@@ -3,6 +3,7 @@ package com.example.movieapp.di
 import com.example.data.remote.api.MovieApi
 import com.example.data.repository.MovieRepositoryImpl
 import com.example.domain.repository.MovieRepository
+import com.example.domain.usecase.GetMovieByIdUseCase
 import com.example.domain.usecase.GetPopularMoviesUseCase
 import dagger.Module
 import dagger.Provides
@@ -25,4 +26,8 @@ object AppModule {
     @Provides
     fun provideGetPopularMoviesUseCase(repository: MovieRepository): GetPopularMoviesUseCase =
         GetPopularMoviesUseCase(repository)
+
+    @Provides
+    fun provideGetMovieDetailUseCase(repository: MovieRepository): GetMovieByIdUseCase =
+        GetMovieByIdUseCase(repository)
 }

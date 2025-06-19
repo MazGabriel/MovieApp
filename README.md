@@ -1,12 +1,5 @@
 # MovieApp
 
-## Features
-
-- Display popular movies titles and images in a grid
-- App bar to navigate back when is possible
-- Bottom navigation bar to navigate between main screens
-
-
 ## Architecture
 
 ### Modules
@@ -28,7 +21,6 @@ Basic skeleton
     - components/
     - navigation/
     - screens/
-  - viewmodel
 - domain/
   - model/
   - repository/
@@ -49,3 +41,19 @@ Basic skeleton
 - Hilt
 - Coil
 - Navigation Compose
+
+## Features
+
+### Navigation
+
+- App bar to navigate back when is possible (in a navigated screen, not the main screen on the
+  bottom bar)
+- Bottom navigation bar to navigate between main screens
+
+### Home
+
+- Display popular movies titles and images in a grid
+- Navigate to movie details when clicked
+
+### Movie Detail
+-
