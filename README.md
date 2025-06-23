@@ -56,4 +56,6 @@ Basic skeleton
 - Navigate to movie details when clicked
 
 ### Movie Detail
--
+- Display movie details including title, image, overview, stats (like vote average, vote count, main language and if is adult) and genres
+- Overview can be expanded to show more if texts extends 150 characters
+- Detail Screen hides bottom navigation bar
