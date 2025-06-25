@@ -26,29 +26,31 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.core.utils.Constants
 import com.example.domain.model.Movie
+import com.example.movieapp.ui.components.FavoriteButton
 import com.example.movieapp.ui.components.MovieOverview
 import com.example.movieapp.ui.components.MovieStatsRow
 
 @Composable
 fun MovieDetailScreen(
     modifier: Modifier = Modifier,
-    viewmodel: MovieDetailViewModel = hiltViewModel(),
+    viewModel: MovieDetailViewModel = hiltViewModel(),
 ) {
-    val movieState by viewmodel.uiState.collectAsState()
+    val movieState by viewModel.uiState.collectAsState()
 
     when (movieState) {
         is MovieState.Loading -> CircularProgressIndicator(modifier.fillMaxSize())
         is MovieState.Error -> Text("Error", color = MaterialTheme.colorScheme.error)
-        is MovieState.Success -> MovieDetail(movie = (movieState as MovieState.Success).data)
+        is MovieState.Success -> MovieDetail(
+            movie = (movieState as MovieState.Success).data, viewModel = viewModel
+        )
     }
 }
 
 @Composable
 fun MovieDetail(
-    modifier: Modifier = Modifier,
-    movie: Movie
+    modifier: Modifier = Modifier, movie: Movie, viewModel: MovieDetailViewModel
 ) {
-    val genresString = movie.genres.joinToString { it.name }
+    val isFavorite by viewModel.isFavorite.collectAsState()
 
     Column(modifier.padding(16.dp)) {
         Text(
@@ -70,21 +72,31 @@ fun MovieDetail(
                 alignment = Alignment.Center
             )
         }
-        Spacer(Modifier.height(16.dp))
-
+        Spacer(modifier.height(16.dp))
         MovieStatsRow(
             voteAverage = movie.voteAverage,
             voteCount = movie.voteCount,
             language = movie.originalLanguage,
-            isAdult = movie.adult
+            isAdult = movie.adult,
+            isFavorite = isFavorite
         )
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier.height(16.dp))
         Text(
-                text = genresString,
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.tertiaryContainer
+            text = movie.genres,
+            modifier = modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.tertiaryContainer
         )
-        Spacer(Modifier.height(16.dp))
+        Spacer(modifier.height(16.dp))
         MovieOverview(overview = movie.overview)
+        Spacer(modifier.height(16.dp))
+        FavoriteButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            isFavorite = isFavorite,
+            onClick = { viewModel.toggleFavorite() }
+        )
     }
 }

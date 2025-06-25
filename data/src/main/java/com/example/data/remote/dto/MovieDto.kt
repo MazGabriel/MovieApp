@@ -34,7 +34,7 @@ data class MovieDto(
         adult = adult,
         backdropPath = backdropPath.value(),
         genreIds = genreIds.orEmpty(),
-        genres = genres?.map { it.toDomain() }.orEmpty(),
+        genres = genres?.joinToString { it.name }.orEmpty(),
         id = id,
         originalLanguage = originalLanguage,
         originalTitle = originalTitle,

@@ -4,16 +4,25 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.NotInterested
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -37,10 +46,14 @@ fun MovieStatsRow(
     voteAverage: Double,
     voteCount: Int,
     language: String,
-    isAdult: Boolean
+    isAdult: Boolean,
+    isFavorite: Boolean = false,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
+        modifier = modifier
+            .fillMaxWidth()
+            .width(IntrinsicSize.Min),
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         MovieStatItem(
             icon = Icons.Default.Star,
@@ -60,7 +73,12 @@ fun MovieStatsRow(
         MovieStatItem(
             icon = if (isAdult) Icons.Default.NotInterested else Icons.Default.Check,
             label = "Adult",
-            value = if (isAdult) "Adulto" else "ATP"
+            value = if (isAdult) "Adulto" else "G-rated"
+        )
+        MovieStatItem(
+            icon = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+            label = "Favorite",
+            isFavoriteIcon = true
         )
     }
 }
@@ -69,16 +87,22 @@ fun MovieStatsRow(
 fun MovieStatItem(
     modifier: Modifier = Modifier,
     icon: ImageVector,
-    label: String,
-    value: String
+    label: String, value: String = "",
+    isFavoriteIcon: Boolean = false
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
         Icon(
+            modifier = if (isFavoriteIcon)
+                modifier.size(40.dp)
+            else modifier.size(20.dp),
             imageVector = icon,
             contentDescription = label,
             tint = MaterialTheme.colorScheme.secondary,
-            modifier = modifier.size(20.dp)
         )
+        if (!isFavoriteIcon)
         Text(
             text = value,
             modifier = modifier.padding(top = 4.dp, bottom = 4.dp),
@@ -95,10 +119,11 @@ fun MovieOverview(
     maxChars: Int = 150
 ) {
     var isExpanded by remember { mutableStateOf(false) }
-    val finalOverview = if (!isExpanded && overview.length > maxChars)
-        overview.take(maxChars) + "..."
-    else
-        overview
+    val finalOverview =
+        if (!isExpanded && overview.length > maxChars)
+            overview.take(maxChars) + "..."
+        else
+            overview
 
     Card(
         modifier = modifier
@@ -126,4 +151,27 @@ fun MovieOverview(
             }
         }
     }
+}
+
+@Composable
+fun FavoriteButton(
+    modifier: Modifier = Modifier,
+    isFavorite: Boolean = false,
+    onClick: () -> Unit
+) {
+    Button(
+        modifier = modifier,
+        colors = ButtonDefaults.buttonColors(
+            contentColor = MaterialTheme.colorScheme.tertiaryContainer
+        ),
+        onClick = onClick,
+        content = {
+            Icon(
+                imageVector = if (isFavorite) Icons.Default.Remove else Icons.Default.Add,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp)
+            )
+            Spacer(Modifier.width(8.dp))
+            Text(if (isFavorite) "Remove favorite" else "Add to favorites")
+        })
 }

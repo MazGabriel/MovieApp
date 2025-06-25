@@ -21,18 +21,22 @@ Basic skeleton
     - components/
     - navigation/
     - screens/
+- core/
+  - utils/
+  - network/
+- data/
+  - di/
+  - local/
+    - dao/
+    - entity/
+  - remote/
+    - api/
+    - dto/
+  - repository/
 - domain/
   - model/
   - repository/
   - usecase/
-- data/
-  - repository/
-  - remote/
-    - api/
-    - dto/
-- core/
-  - utils/
-  - network/
 ```
 
 ## External libraries
@@ -41,6 +45,7 @@ Basic skeleton
 - Hilt
 - Coil
 - Navigation Compose
+- Room
 
 ## Features
 
@@ -59,3 +64,4 @@ Basic skeleton
 - Display movie details including title, image, overview, stats (like vote average, vote count, main language and if is adult) and genres
 - Overview can be expanded to show more if texts extends 150 characters
 - Detail Screen hides bottom navigation bar
+- Save movie as favorite when clicked. The favorite is saved locally in a Room database

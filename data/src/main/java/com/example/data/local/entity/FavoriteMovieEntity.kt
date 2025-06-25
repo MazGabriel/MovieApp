@@ -1,11 +1,15 @@
-package com.example.domain.model
+package com.example.data.local.entity
 
-data class Movie(
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "favorite_movies")
+data class FavoriteMovieEntity(
+    @PrimaryKey
+    val id: Int,
     val adult: Boolean,
     val backdropPath: String = "",
-    val genreIds: List<Int> = emptyList(),
     val genres: String = "",
-    val id: Int,
     val originalLanguage: String,
     val originalTitle: String,
     val overview: String,
