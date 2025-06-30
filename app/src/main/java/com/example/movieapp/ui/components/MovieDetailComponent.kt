@@ -15,8 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.NotInterested
 import androidx.compose.material.icons.filled.Remove
@@ -47,7 +45,6 @@ fun MovieStatsRow(
     voteCount: Int,
     language: String,
     isAdult: Boolean,
-    isFavorite: Boolean = false,
 ) {
     Row(
         modifier = modifier
@@ -75,11 +72,6 @@ fun MovieStatsRow(
             label = "Adult",
             value = if (isAdult) "Adulto" else "G-rated"
         )
-        MovieStatItem(
-            icon = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-            label = "Favorite",
-            isFavoriteIcon = true
-        )
     }
 }
 
@@ -87,22 +79,18 @@ fun MovieStatsRow(
 fun MovieStatItem(
     modifier: Modifier = Modifier,
     icon: ImageVector,
-    label: String, value: String = "",
-    isFavoriteIcon: Boolean = false
+    label: String, value: String,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Icon(
-            modifier = if (isFavoriteIcon)
-                modifier.size(40.dp)
-            else modifier.size(20.dp),
+            modifier = modifier.size(20.dp),
             imageVector = icon,
             contentDescription = label,
             tint = MaterialTheme.colorScheme.secondary,
         )
-        if (!isFavoriteIcon)
         Text(
             text = value,
             modifier = modifier.padding(top = 4.dp, bottom = 4.dp),

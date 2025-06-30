@@ -10,5 +10,7 @@ interface FavoriteRepository {
 
     suspend fun getAll(): List<Movie>
 
+    suspend fun getAllIds(): List<Int>
+
     suspend fun isFavorite(movieId: Int): Boolean
 }

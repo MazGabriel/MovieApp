@@ -1,4 +1,4 @@
-package com.example.movieapp.ui.screens.home
+package com.example.movieapp.ui.screens.favorites
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,11 +14,11 @@ import com.example.movieapp.ui.components.MoviesList
 import com.example.movieapp.ui.navigation.Screen
 
 @Composable
-fun HomeScreen(navController: NavController, viewModel: MovieViewModel = hiltViewModel()) {
+fun FavoritesScreen(navController: NavController, viewModel: FavoritesViewModel = hiltViewModel()) {
     val state = viewModel.state
 
     LaunchedEffect(Unit) {
-        viewModel.fetchMovies()
+        viewModel.fetchFavorites()
     }
 
     when {
@@ -35,7 +35,7 @@ fun HomeScreen(navController: NavController, viewModel: MovieViewModel = hiltVie
         }
 
         else -> {
-            MoviesList(movies = state.movies) { movieId ->
+            MoviesList(movies = state.favorites) { movieId ->
                 navController.navigate(Screen.MovieDetail.createRoute(movieId))
             }
         }

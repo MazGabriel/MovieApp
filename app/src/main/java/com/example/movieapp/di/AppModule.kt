@@ -7,10 +7,13 @@ import com.example.data.repository.MovieRepositoryImpl
 import com.example.domain.repository.FavoriteRepository
 import com.example.domain.repository.MovieRepository
 import com.example.domain.usecase.favorites.AddFavoriteUseCase
+import com.example.domain.usecase.favorites.GetFavoritesIdsUseCase
+import com.example.domain.usecase.favorites.GetFavoritesUseCase
 import com.example.domain.usecase.favorites.IsFavoriteUseCase
 import com.example.domain.usecase.favorites.RemoveFavoriteUseCase
 import com.example.domain.usecase.movies.GetMovieByIdUseCase
-import com.example.domain.usecase.movies.GetPopularMoviesUseCase
+import com.example.domain.usecase.movies.GetMoviesUseCase
+import com.example.domain.usecase.movies.GetMoviesWithFavoritesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,8 +37,16 @@ object AppModule {
         FavoriteRepositoryImpl(dao)
 
     @Provides
-    fun provideGetPopularMoviesUseCase(repository: MovieRepository): GetPopularMoviesUseCase =
-        GetPopularMoviesUseCase(repository)
+    fun provideGetMoviesUseCase(repository: MovieRepository): GetMoviesUseCase =
+        GetMoviesUseCase(repository)
+
+    @Provides
+    fun provideGetMovieWithFavoritesUseCase(
+        getMoviesUseCase: GetMoviesUseCase,
+        getFavoritesIdsUseCase: GetFavoritesIdsUseCase
+    ): GetMoviesWithFavoritesUseCase =
+        GetMoviesWithFavoritesUseCase(getMoviesUseCase, getFavoritesIdsUseCase)
+
 
     @Provides
     fun provideGetMovieDetailUseCase(repository: MovieRepository): GetMovieByIdUseCase =
@@ -52,4 +63,12 @@ object AppModule {
     @Provides
     fun provideIsFavoriteUseCase(repository: FavoriteRepository): IsFavoriteUseCase =
         IsFavoriteUseCase(repository)
+
+    @Provides
+    fun provideGetFavoriteMoviesUseCase(repository: FavoriteRepository): GetFavoritesUseCase =
+        GetFavoritesUseCase(repository)
+
+    @Provides
+    fun provideGetFavoritesIdsUseCase(repository: FavoriteRepository): GetFavoritesIdsUseCase =
+        GetFavoritesIdsUseCase(repository)
 }

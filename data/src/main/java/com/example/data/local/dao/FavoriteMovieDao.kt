@@ -12,6 +12,9 @@ interface FavoriteMovieDao {
     @Query("SELECT * FROM favorite_movies")
     suspend fun getAll(): List<FavoriteMovieEntity>
 
+    @Query("SELECT id FROM favorite_movies")
+    suspend fun getAllIds(): List<Int>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(movie: FavoriteMovieEntity)
 

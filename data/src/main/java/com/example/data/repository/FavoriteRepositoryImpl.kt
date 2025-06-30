@@ -22,6 +22,9 @@ class FavoriteRepositoryImpl @Inject constructor(
     override suspend fun getAll(): List<Movie> =
         dao.getAll().map { it.toDomain() }
 
+    override suspend fun getAllIds(): List<Int> =
+        dao.getAllIds()
+
     override suspend fun isFavorite(movieId: Int): Boolean =
         dao.isFavorite(movieId)
 }

@@ -3,7 +3,7 @@ package com.example.domain.usecase.movies
 import com.example.domain.model.Movie
 import com.example.domain.repository.MovieRepository
 
-class GetPopularMoviesUseCase(
+class GetMoviesUseCase(
     private val repository: MovieRepository
 ) {
 

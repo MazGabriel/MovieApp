@@ -17,6 +17,7 @@ import com.example.movieapp.ui.components.BottomNavigationBar
 import com.example.movieapp.ui.components.MovieTopBar
 import com.example.movieapp.ui.navigation.Screen
 import com.example.movieapp.ui.screens.detail.MovieDetailScreen
+import com.example.movieapp.ui.screens.favorites.FavoritesScreen
 import com.example.movieapp.ui.screens.home.HomeScreen
 
 @Composable
@@ -56,7 +57,7 @@ fun MovieApp() {
             modifier = Modifier.padding(padding)
         ) {
             composable(Screen.Home.route) { HomeScreen(navController) }
-            composable(Screen.Favorites.route) {}
+            composable(Screen.Favorites.route) { FavoritesScreen(navController) }
             composable(Screen.Profile.route) {}
             composable(
                 route = "details/{movieId}",

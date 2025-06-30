@@ -65,3 +65,7 @@ Basic skeleton
 - Overview can be expanded to show more if texts extends 150 characters
 - Detail Screen hides bottom navigation bar
 - Save movie as favorite when clicked. The favorite is saved locally in a Room database
+
+### Favorites
+- Display favorite movies titles and images in a grid
+- Get favorites from local database

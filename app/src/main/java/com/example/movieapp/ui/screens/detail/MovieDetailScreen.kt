@@ -1,16 +1,19 @@
 package com.example.movieapp.ui.screens.detail
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -52,7 +55,7 @@ fun MovieDetail(
 ) {
     val isFavorite by viewModel.isFavorite.collectAsState()
 
-    Column(modifier.padding(16.dp)) {
+    Column(modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = movie.title,
             modifier = modifier.fillMaxWidth(),
@@ -60,30 +63,35 @@ fun MovieDetail(
             style = MaterialTheme.typography.headlineSmall
         )
         Spacer(Modifier.height(16.dp))
-        Surface(modifier = modifier.fillMaxWidth()) {
+        Box {
             Image(
                 painter = rememberAsyncImagePainter(
                     model = ImageRequest.Builder(LocalContext.current)
                         .crossfade(true)
                         .data("${Constants.IMAGE_BASE_URL}${movie.posterPath}").build()
-                ),
-                contentDescription = "Movie image",
-                modifier = modifier.background(MaterialTheme.colorScheme.background),
-                alignment = Alignment.Center
+                ), contentDescription = "Movie image"
             )
+            if (isFavorite)
+                Icon(
+                    modifier = modifier
+                        .size(22.dp)
+                        .padding(4.dp)
+                        .align(alignment = Alignment.BottomEnd),
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "Favorite",
+                    tint = MaterialTheme.colorScheme.secondary,
+                )
         }
         Spacer(modifier.height(16.dp))
         MovieStatsRow(
             voteAverage = movie.voteAverage,
             voteCount = movie.voteCount,
             language = movie.originalLanguage,
-            isAdult = movie.adult,
-            isFavorite = isFavorite
+            isAdult = movie.adult
         )
         Spacer(modifier.height(16.dp))
         Text(
             text = movie.genres,
-            modifier = modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.tertiaryContainer
