@@ -6,6 +6,7 @@ class RemoveFavoriteUseCase(
     private val repository: FavoriteRepository
 ) {
 
-    suspend operator fun invoke(id: Int) =
+    suspend operator fun invoke(id: Int) {
         repository.removeFavorite(id)
+    }
 }

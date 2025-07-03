@@ -3,6 +3,7 @@ package com.example.movieapp.ui.screens.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.utils.response.ResponseState
 import com.example.domain.model.Movie
 import com.example.domain.usecase.favorites.AddFavoriteUseCase
 import com.example.domain.usecase.favorites.IsFavoriteUseCase
@@ -26,8 +27,8 @@ class MovieDetailViewModel @Inject constructor(
     private val movieId: Int = savedStateHandle["movieId"] ?: 0
     private val _isFavorite = MutableStateFlow(false)
     val isFavorite: StateFlow<Boolean> = _isFavorite
-    private val _uiState = MutableStateFlow<MovieState>(MovieState.Loading)
-    val uiState: StateFlow<MovieState> = _uiState
+    private val _uiState = MutableStateFlow<ResponseState<Movie>>(ResponseState.Loading)
+    val uiState: StateFlow<ResponseState<Movie>> = _uiState
 
     init {
         getMovie()
@@ -35,12 +36,13 @@ class MovieDetailViewModel @Inject constructor(
 
     private fun getMovie() {
         viewModelScope.launch {
+            _uiState.value = ResponseState.Loading
             try {
                 val movie = getMovieByIdUseCase(movieId)
                 checkFavorite()
-                _uiState.value = MovieState.Success(movie)
+                _uiState.value = movie
             } catch (e: Exception) {
-                _uiState.value = MovieState.Error(e.message ?: "Error")
+                _uiState.value = ResponseState.Error(e.message ?: "Error")
             }
         }
     }
@@ -58,15 +60,11 @@ class MovieDetailViewModel @Inject constructor(
                 _isFavorite.value = false
             } else {
                 val movie = getMovieByIdUseCase(movieId)
-                addFavoriteUseCase(movie)
-                _isFavorite.value = true
+                if (movie is ResponseState.Success) {
+                    addFavoriteUseCase(movie.data)
+                    _isFavorite.value = true
+                }
             }
         }
     }
-}
-
-sealed class MovieState {
-    data object Loading : MovieState()
-    data class Success(val data: Movie) : MovieState()
-    data class Error(val message: String) : MovieState()
 }

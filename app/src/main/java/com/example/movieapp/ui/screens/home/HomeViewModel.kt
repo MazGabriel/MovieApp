@@ -1,6 +1,8 @@
 package com.example.movieapp.ui.screens.home
 
 import androidx.lifecycle.viewModelScope
+import com.example.core.utils.response.ResponseState
+import com.example.core.utils.response.onSuccess
 import com.example.domain.usecase.favorites.UpdateFavoritesUseCase
 import com.example.domain.usecase.movies.GetMoviesUseCase
 import com.example.movieapp.ui.screens.BaseMovieViewModel
@@ -15,21 +17,21 @@ class MovieViewModel @Inject constructor(
 ) : BaseMovieViewModel() {
 
     override fun loadNextPage() {
-        if (state.isLoading || state.endReached) return
+        if (state.isLoading) return
         viewModelScope.launch {
             updateState { copy(isLoading = true) }
             currentPage++
             try {
-                val newMovies = getPopularMovies(currentPage + 1)
-                val newMoviesUpdated = updateFavorites(state.movies + newMovies)
-                updateState {
-                    copy(
-                        movies = newMoviesUpdated,
-                        isLoading = false,
-                        endReached = newMovies.isEmpty()
-                    )
+                val newMovies = (getPopularMovies(currentPage + 1) as ResponseState.Success).data
+                updateFavorites(state.movies + newMovies).onSuccess { favorites ->
+                    updateState {
+                        copy(
+                            movies = favorites,
+                            isLoading = false,
+                        )
+                    }
+                    if (newMovies.isNotEmpty()) currentPage++
                 }
-                if (newMovies.isNotEmpty()) currentPage++
             } catch (e: Exception) {
                 updateState {
                     copy(

@@ -28,6 +28,7 @@ import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.core.utils.Constants
+import com.example.core.utils.response.ResponseState
 import com.example.domain.model.Movie
 import com.example.movieapp.ui.components.FavoriteButton
 import com.example.movieapp.ui.components.MovieOverview
@@ -41,10 +42,10 @@ fun MovieDetailScreen(
     val movieState by viewModel.uiState.collectAsState()
 
     when (movieState) {
-        is MovieState.Loading -> CircularProgressIndicator(modifier.fillMaxSize())
-        is MovieState.Error -> Text("Error", color = MaterialTheme.colorScheme.error)
-        is MovieState.Success -> MovieDetail(
-            movie = (movieState as MovieState.Success).data, viewModel = viewModel
+        is ResponseState.Loading -> CircularProgressIndicator(modifier.fillMaxSize())
+        is ResponseState.Error -> Text("Error", color = MaterialTheme.colorScheme.error)
+        is ResponseState.Success -> MovieDetail(
+            movie = (movieState as ResponseState.Success).data, viewModel = viewModel
         )
     }
 }

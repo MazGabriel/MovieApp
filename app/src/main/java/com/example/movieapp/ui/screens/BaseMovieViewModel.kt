@@ -26,5 +26,4 @@ data class MovieState(
     val movies: List<Movie> = emptyList(),
     val isLoading: Boolean = false,
     val error: String = "",
-    val endReached: Boolean = false
 )

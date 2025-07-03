@@ -7,6 +7,7 @@ class AddFavoriteUseCase(
     private val repository: FavoriteRepository
 ) {
 
-    suspend operator fun invoke(movie: Movie) =
+    suspend operator fun invoke(movie: Movie) {
         repository.addFavorite(movie)
+    }
 }

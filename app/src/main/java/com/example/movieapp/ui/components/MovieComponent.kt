@@ -133,7 +133,7 @@ fun AutoScrollableMovieList(
                 lastItem to totalItems
             }
         }.collect { (lastVisibleIndex, totalItems) ->
-            if (lastVisibleIndex >= totalItems - 1 && !isLoading && error.isEmpty() && !viewModel.state.endReached) {
+            if (lastVisibleIndex >= totalItems - 1 && !isLoading && error.isEmpty()) {
                 viewModel.loadNextPage()
             }
         }
@@ -143,7 +143,7 @@ fun AutoScrollableMovieList(
         modifier = modifier.fillMaxSize(),
         columns = GridCells.Fixed(2), state = gridState
     ) {
-        itemsIndexed(movies) { index, movie ->
+        itemsIndexed(movies) { _, movie ->
             Movie(movie = movie, onItemClicked = onItemClicked)
         }
 

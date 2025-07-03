@@ -1,6 +1,7 @@
 package com.example.movieapp.ui.screens.favorites
 
 import androidx.lifecycle.viewModelScope
+import com.example.core.utils.response.onSuccess
 import com.example.domain.usecase.favorites.GetFavoritesUseCase
 import com.example.movieapp.ui.screens.BaseMovieViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +17,9 @@ class FavoritesViewModel @Inject constructor(
         viewModelScope.launch {
             state = state.copy(isLoading = true)
             try {
-                val favorites = getFavoritesUseCase()
-                state = state.copy(movies = favorites, isLoading = false)
+                getFavoritesUseCase().onSuccess { movies ->
+                    state = state.copy(movies = movies, isLoading = false)
+                }
             } catch (e: Exception) {
                 state = state.copy(error = e.message ?: "Unknown Error", isLoading = false)
             }
