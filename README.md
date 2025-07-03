@@ -59,6 +59,8 @@ Basic skeleton
 
 - Display popular movies titles and images in a grid
 - Navigate to movie details when clicked
+- Indicate if movie is favorite or not
+- Scroll to the end of the list to load next remote page of movies
 
 ### Movie Detail
 - Display movie details including title, image, overview, stats (like vote average, vote count, main language and if is adult) and genres

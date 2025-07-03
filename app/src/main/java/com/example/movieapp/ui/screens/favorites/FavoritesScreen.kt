@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.movieapp.ui.components.MoviesList
+import com.example.movieapp.ui.components.ScrollableMovieList
 import com.example.movieapp.ui.navigation.Screen
 
 @Composable
@@ -18,7 +18,7 @@ fun FavoritesScreen(navController: NavController, viewModel: FavoritesViewModel 
     val state = viewModel.state
 
     LaunchedEffect(Unit) {
-        viewModel.fetchFavorites()
+        viewModel.loadNextPage()
     }
 
     when {
@@ -35,7 +35,9 @@ fun FavoritesScreen(navController: NavController, viewModel: FavoritesViewModel 
         }
 
         else -> {
-            MoviesList(movies = state.favorites) { movieId ->
+            ScrollableMovieList(
+                movies = state.movies,
+            ) { movieId ->
                 navController.navigate(Screen.MovieDetail.createRoute(movieId))
             }
         }

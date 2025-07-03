@@ -1,39 +1,43 @@
 package com.example.movieapp.ui.screens.home
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.Movie
-import com.example.domain.usecase.movies.GetMoviesWithFavoritesUseCase
+import com.example.domain.usecase.favorites.UpdateFavoritesUseCase
+import com.example.domain.usecase.movies.GetMoviesUseCase
+import com.example.movieapp.ui.screens.BaseMovieViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MovieViewModel @Inject constructor(
-    private val getPopularMovies: GetMoviesWithFavoritesUseCase
-) : ViewModel() {
+    private val getPopularMovies: GetMoviesUseCase,
+    private val updateFavorites: UpdateFavoritesUseCase
+) : BaseMovieViewModel() {
 
-    var state by mutableStateOf(MovieState())
-        private set
-
-    fun fetchMovies() {
+    override fun loadNextPage() {
+        if (state.isLoading || state.endReached) return
         viewModelScope.launch {
-            state = state.copy(isLoading = true)
+            updateState { copy(isLoading = true) }
+            currentPage++
             try {
-                val movies = getPopularMovies()
-                state = state.copy(movies = movies, isLoading = false)
+                val newMovies = getPopularMovies(currentPage + 1)
+                val newMoviesUpdated = updateFavorites(state.movies + newMovies)
+                updateState {
+                    copy(
+                        movies = newMoviesUpdated,
+                        isLoading = false,
+                        endReached = newMovies.isEmpty()
+                    )
+                }
+                if (newMovies.isNotEmpty()) currentPage++
             } catch (e: Exception) {
-                state = state.copy(error = e.message ?: "Unknown Error", isLoading = false)
+                updateState {
+                    copy(
+                        isLoading = false,
+                        error = e.message ?: "Error loading movies"
+                    )
+                }
             }
         }
     }
 }
-
-data class MovieState(
-    val movies: List<Movie> = emptyList(),
-    val isLoading: Boolean = false,
-    val error: String = ""
-)

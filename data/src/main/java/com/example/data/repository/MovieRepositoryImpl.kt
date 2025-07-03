@@ -9,8 +9,8 @@ class MovieRepositoryImpl @Inject constructor(
     private val api: MovieApi
 ) : MovieRepository {
 
-    override suspend fun getPopularMovies(): List<Movie> =
-        api.getPopularMovies().results.map { it.toDomain() }
+    override suspend fun getPopularMovies(page: Int): List<Movie> =
+        api.getPopularMovies(page).results.map { it.toDomain() }
 
     override suspend fun getMoviesById(movieId: Int): Movie =
         api.getMoviesById(movieId).toDomain()

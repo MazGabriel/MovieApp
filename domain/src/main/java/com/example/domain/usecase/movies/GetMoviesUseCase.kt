@@ -7,7 +7,7 @@ class GetMoviesUseCase(
     private val repository: MovieRepository
 ) {
 
-    suspend operator fun invoke(): List<Movie> {
-        return repository.getPopularMovies()
+    suspend operator fun invoke(page: Int): List<Movie> {
+        return repository.getPopularMovies(page)
     }
 }

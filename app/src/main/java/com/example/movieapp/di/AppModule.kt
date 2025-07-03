@@ -11,9 +11,9 @@ import com.example.domain.usecase.favorites.GetFavoritesIdsUseCase
 import com.example.domain.usecase.favorites.GetFavoritesUseCase
 import com.example.domain.usecase.favorites.IsFavoriteUseCase
 import com.example.domain.usecase.favorites.RemoveFavoriteUseCase
+import com.example.domain.usecase.favorites.UpdateFavoritesUseCase
 import com.example.domain.usecase.movies.GetMovieByIdUseCase
 import com.example.domain.usecase.movies.GetMoviesUseCase
-import com.example.domain.usecase.movies.GetMoviesWithFavoritesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,14 +41,6 @@ object AppModule {
         GetMoviesUseCase(repository)
 
     @Provides
-    fun provideGetMovieWithFavoritesUseCase(
-        getMoviesUseCase: GetMoviesUseCase,
-        getFavoritesIdsUseCase: GetFavoritesIdsUseCase
-    ): GetMoviesWithFavoritesUseCase =
-        GetMoviesWithFavoritesUseCase(getMoviesUseCase, getFavoritesIdsUseCase)
-
-
-    @Provides
     fun provideGetMovieDetailUseCase(repository: MovieRepository): GetMovieByIdUseCase =
         GetMovieByIdUseCase(repository)
 
@@ -71,4 +63,8 @@ object AppModule {
     @Provides
     fun provideGetFavoritesIdsUseCase(repository: FavoriteRepository): GetFavoritesIdsUseCase =
         GetFavoritesIdsUseCase(repository)
+
+    @Provides
+    fun providesUpdateFavoritesUseCase(repository: FavoriteRepository): UpdateFavoritesUseCase =
+        UpdateFavoritesUseCase(repository)
 }
