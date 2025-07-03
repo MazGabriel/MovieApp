@@ -139,6 +139,10 @@ fun AutoScrollableMovieList(
         }
     }
 
+    if (error.isNotEmpty() || movies.isEmpty()) {
+        EmptyListMessage(message = "No movies found.")
+    }
+
     LazyVerticalGrid(
         modifier = modifier.fillMaxSize(),
         columns = GridCells.Fixed(2), state = gridState

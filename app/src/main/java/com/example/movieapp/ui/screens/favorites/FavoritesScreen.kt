@@ -3,13 +3,13 @@ package com.example.movieapp.ui.screens.favorites
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.movieapp.ui.components.EmptyListMessage
 import com.example.movieapp.ui.components.ScrollableMovieList
 import com.example.movieapp.ui.navigation.Screen
 
@@ -22,24 +22,19 @@ fun FavoritesScreen(navController: NavController, viewModel: FavoritesViewModel 
     }
 
     when {
-        state.isLoading -> {
+        state.isLoading ->
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
-        }
 
-        state.error.isNotEmpty() -> {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = state.error)
-            }
-        }
+        state.error.isNotEmpty() || state.movies.isEmpty() ->
+            EmptyListMessage(message = "No favorites found.")
 
-        else -> {
+        else ->
             ScrollableMovieList(
                 movies = state.movies,
             ) { movieId ->
                 navController.navigate(Screen.MovieDetail.createRoute(movieId))
             }
-        }
     }
 }
